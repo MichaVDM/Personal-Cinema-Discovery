@@ -1,235 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch - Database-Powered Film Discovery</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineMatch - Discover Your Perfect Films & Shows</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Navigation Header -->
-        <header class="app-header">
-            <div class="container">
-                <h1 class="logo">🎬 CineMatch</h1>
-                <div class="header-actions">
-                    <div class="api-status" id="apiStatus">
-                        <span class="status-indicator"></span>
-                        <span class="status-text">Database Ready</span>
-                    </div>
-                    <div class="progress-container" id="progressContainer" style="display: none;">
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progressFill"></div>
-                        </div>
-                        <span class="progress-text" id="progressText">Ready to start</span>
-                    </div>
-                </div>
-            </div>
-        </header>
+  <div class="app-container">
 
-        <!-- Landing Page -->
-        <section class="landing-screen" id="landingScreen">
-            <div class="container">
-                <div class="hero-content">
-                    <div class="hero-title">
-                        <h2>Discover Your Perfect Films & Shows</h2>
-                        <p class="hero-subtitle">Powered by real movie databases with millions of titles</p>
-                    </div>
-                    
-                    <div class="hero-description">
-                        <div class="feature-grid">
-                            <div class="feature-item">
-                                <span class="feature-icon">🗄️</span>
-                                <h3>Live Database</h3>
-                                <p>Connected to TMDb with millions of movies and TV shows</p>
-                            </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">🔄</span>
-                                <h3>Fresh Recommendations</h3>
-                                <p>Different suggestions every time you use the app</p>
-                            </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">📺</span>
-                                <h3>Streaming Info</h3>
-                                <p>See where to watch with real-time availability</p>
-                            </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">⭐</span>
-                                <h3>Critic Scores</h3>
-                                <p>Multiple rating sources and critical reviews</p>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Header -->
+    <header class="app-header">
+      <div class="container">
+        <h1 class="logo">🎬 CineMatch</h1>
+        <nav class="header-nav">
+          <button id="refineBtn" class="nav-button">Refine Criteria</button>
+          <button id="restartBtn" class="nav-button">Restart Configuration</button>
+        </nav>
+      </div>
+    </header>
 
-                    <div class="cta-section">
-                        <button class="btn btn--primary btn--lg" id="startQuestionnaireBtn">
-                            Discover Your Perfect Match
-                        </button>
-                        <p class="time-estimate">Connects to live database • Takes 5-8 minutes</p>
-                    </div>
+    <!-- Landing Screen -->
+    <section id="landingScreen" class="screen active">
+      <div class="container">
+        <h2 class="hero-title">Discover Your Perfect Films & Shows</h2>
+        <p class="hero-subtitle">Through intelligent questioning and real-time recommendations</p>
+        <button id="startQuestionnaireBtn" class="primary-button">Start Questionnaire</button>
+      </div>
+    </section>
 
-                    <div class="api-notice">
-                        <h4>🔑 API Configuration Required</h4>
-                        <p>To access the full database, you'll need free API keys from:</p>
-                        <div class="api-links">
-                            <a href="https://www.themoviedb.org/settings/api" target="_blank" class="btn btn--outline btn--sm">Get TMDb API Key</a>
-                            <a href="http://www.omdbapi.com/apikey.aspx" target="_blank" class="btn btn--outline btn--sm">Get OMDb API Key</a>
-                        </div>
-                        <p class="api-demo-note">Demo mode uses sample data when keys aren't provided.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Questionnaire Screen -->
+    <section id="questionnaireScreen" class="screen">
+      <div class="container">
+        <div class="stage-header">
+          <h3 id="stageTitle" class="stage-title"></h3>
+          <p id="stageSubtitle" class="stage-subtitle"></p>
+        </div>
+        <div id="questionContent" class="question-content"></div>
 
-        <!-- API Configuration Modal -->
-        <div class="modal" id="apiConfigModal" style="display: none;">
-            <div class="modal-backdrop"></div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Configure API Access</h3>
-                    <button class="modal-close" id="closeApiModal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="api-config-form">
-                        <div class="form-group">
-                            <label class="form-label">TMDb API Key (Required)</label>
-                            <input type="text" class="form-control" id="tmdbApiKey" placeholder="Enter your TMDb API key">
-                            <p class="api-help">Get your free key at <a href="https://www.themoviedb.org/settings/api" target="_blank">themoviedb.org</a></p>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">OMDb API Key (Optional)</label>
-                            <input type="text" class="form-control" id="omdbApiKey" placeholder="Enter your OMDb API key">
-                            <p class="api-help">Get your free key at <a href="http://www.omdbapi.com/apikey.aspx" target="_blank">omdbapi.com</a></p>
-                        </div>
-                        <div class="api-actions">
-                            <button class="btn btn--primary" id="saveApiKeys">Save & Continue</button>
-                            <button class="btn btn--outline" id="useDemoMode">Use Demo Mode</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="navigation-buttons">
+          <button id="prevBtn" class="nav-button">Previous</button>
+          <button id="skipBtn" class="nav-button">Skip</button>
+          <button id="nextBtn" class="primary-button">Next</button>
         </div>
 
-        <!-- Questionnaire Section -->
-        <section class="questionnaire-screen hidden" id="questionnaireScreen">
-            <div class="container">
-                <div class="questionnaire-header">
-                    <h2 id="stageTitle">Basic Preferences</h2>
-                    <p id="stageDescription">Let's understand your taste</p>
-                    <div class="question-counter">
-                        <span id="currentQuestion">1</span> of <span id="totalQuestions">8</span>
-                    </div>
-                </div>
-
-                <div class="question-container" id="questionContainer">
-                    <!-- Questions will be dynamically generated here -->
-                </div>
-
-                <div class="navigation-controls">
-                    <button class="btn btn--outline" id="prevBtn" disabled>Previous</button>
-                    <button class="btn btn--outline" id="skipBtn">Skip</button>
-                    <button class="btn btn--primary" id="nextBtn" disabled>Next</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Loading Screen -->
-        <section class="loading-screen hidden" id="loadingScreen">
-            <div class="container">
-                <div class="loading-content">
-                    <div class="loading-animation">
-                        <div class="loading-spinner"></div>
-                        <h2>Finding Your Perfect Matches</h2>
-                        <p id="loadingStatus">Analyzing your preferences...</p>
-                        <div class="loading-progress">
-                            <div class="loading-step active" data-step="1">
-                                <span class="step-icon">🔍</span>
-                                <span class="step-text">Analyzing preferences</span>
-                            </div>
-                            <div class="loading-step" data-step="2">
-                                <span class="step-icon">🗄️</span>
-                                <span class="step-text">Querying database</span>
-                            </div>
-                            <div class="loading-step" data-step="3">
-                                <span class="step-icon">🎯</span>
-                                <span class="step-text">Generating recommendations</span>
-                            </div>
-                            <div class="loading-step" data-step="4">
-                                <span class="step-icon">📺</span>
-                                <span class="step-text">Finding streaming info</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Results Section -->
-        <section class="results-screen hidden" id="resultsScreen">
-            <div class="container">
-                <div class="results-header">
-                    <h2>Your Personalized Recommendations</h2>
-                    <p>Fresh from our database - <span id="recommendationCount">0</span> titles found</p>
-                    <div class="results-actions-top">
-                        <button class="btn btn--primary" id="refreshRecommendations">🔄 Get New Recommendations</button>
-                        <button class="btn btn--outline" id="shareResults">Share Results</button>
-                    </div>
-                </div>
-
-                <div class="profile-summary" id="profileSummary">
-                    <!-- Profile will be generated here -->
-                </div>
-
-                <div class="recommendations-section">
-                    <div class="recommendation-categories" id="recommendationCategories">
-                        <!-- Recommendation categories will be generated here -->
-                    </div>
-                </div>
-
-                <div class="results-actions">
-                    <button class="btn btn--outline" id="refineBtn">Refine Preferences</button>
-                    <button class="btn btn--secondary" id="startOverBtn">Start Over</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Movie Detail Modal -->
-        <div class="modal hidden" id="movieDetailModal">
-            <div class="modal-backdrop"></div>
-            <div class="modal-content modal-content--large">
-                <div class="modal-header">
-                    <h3 id="movieDetailTitle">Movie Details</h3>
-                    <button class="modal-close" id="closeMovieModal">&times;</button>
-                </div>
-                <div class="modal-body" id="movieDetailContent">
-                    <!-- Movie details will be populated here -->
-                </div>
-            </div>
+        <div id="progressContainer" class="progress-container">
+          <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+          <span id="progressText" class="progress-text"></span>
         </div>
+      </div>
+    </section>
 
-        <!-- Share Modal -->
-        <div class="modal hidden" id="shareModal">
-            <div class="modal-backdrop"></div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Share Your Recommendations</h3>
-                    <button class="modal-close" id="closeShareModal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="share-options">
-                        <p>Your personalized cinema recommendations:</p>
-                        <div class="share-summary" id="shareSummary"></div>
-                        <div class="share-buttons">
-                            <button class="btn btn--outline" id="copyLink">Copy Link</button>
-                            <button class="btn btn--outline" id="downloadResults">Save Results</button>
-                        </div>
-                        <p class="share-note">Generated from live movie databases with fresh recommendations.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Results Screen -->
+    <section id="resultsScreen" class="screen">
+      <div class="container">
+        <h3 class="results-title">Your Personalized Recommendations</h3>
+        <div id="profileSummary" class="profile-summary"></div>
+        <div id="recommendationsContainer" class="recommendations"></div>
+      </div>
+    </section>
 
-    <script src="app.js"></script>
+  </div>
+
+  <script src="app.js" defer></script>
 </body>
 </html>
