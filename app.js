@@ -273,8 +273,8 @@ class CineMatchApp {
         }
 
         this.apiKeys = {
-            tmdb: tmdbKey,
-            omdb: omdbKey || null
+            tmdb: 'f6c416b453c20b909c145fe52ed9104e',
+            omdb: '3eace0c3'
         };
 
         console.log('API keys saved, starting questionnaire');
